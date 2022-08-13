@@ -6,6 +6,7 @@ using static CONST;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    
     void Start()
     {
         if (instance != null) instance = this;

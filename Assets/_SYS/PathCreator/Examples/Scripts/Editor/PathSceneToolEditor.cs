@@ -2,7 +2,7 @@
 using UnityEditor;
 using PathCreation;
 
-namespace PathCreation.Examples
+namespace PathCreation.Builder
 {
     [CustomEditor(typeof(PathSceneTool), true)]
     public class PathSceneToolEditor : Editor

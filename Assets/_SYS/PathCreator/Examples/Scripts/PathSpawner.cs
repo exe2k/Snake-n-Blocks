@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using PathCreation;
 using UnityEngine;
 
-namespace PathCreation.Examples {
+namespace PathCreation.Builder {
 
     public class PathSpawner : MonoBehaviour {
 

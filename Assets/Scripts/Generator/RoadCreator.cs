@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using PathCreation.Builder;
 
 namespace PathCreation.Builder {
 
     [RequireComponent(typeof(PathCreator))]
-    public class RoadCreator : MonoBehaviour {
+     public class RoadCreator : MonoBehaviour {
 
         public bool closedLoop = false; //default false
-
         public LinkedList<Transform> waypoints = new LinkedList<Transform>();
 
 
@@ -22,6 +22,8 @@ namespace PathCreation.Builder {
                 BezierPath bezierPath = new BezierPath(waypoints.ToArray(), closedLoop, PathSpace.xyz);
                 GetComponent<PathCreator>().bezierPath = bezierPath;
             }
+
+            GetComponent<RoadMeshCreator>().CreateRoad();
         }
     }
 }

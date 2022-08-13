@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PathCreation.Examples
+namespace PathCreation.Builder
 {
     [ExecuteInEditMode]
     public abstract class PathSceneTool : MonoBehaviour

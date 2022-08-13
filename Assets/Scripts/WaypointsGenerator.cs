@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static CONST;
 
-
 /// <summary>
 /// Responsible for waypoints generation. 
 /// Should be run first in stack!
@@ -16,6 +15,7 @@ public class WaypointsGenerator : WorldGeneratable
     public int WayPointsAmount = GEN_MIN_WAYPOINTS;
 
 
+
     public void CreateWaypoints()
     {
         Clear();
@@ -23,14 +23,21 @@ public class WaypointsGenerator : WorldGeneratable
         {
             waypoints.AddLast(GenerateNewWaypoint());
         }
+
+        waypoints.First.Value.gameObject.name = "first";
+        waypoints.Last.Value.gameObject.name = "last";
+
+        SetZeroRotation(waypoints.Last.Value);
+        SetZeroRotation(waypoints.First.Value);
+        SetZeroRotation(waypoints.First.Next.Value);
+
         WorldHandler.instance.isWaypointsReady = true;
+
     }
 
     private Transform GenerateNewWaypoint()
     {
         var wp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-
-
         var lastWP = (waypoints.Count > 0) ? waypoints.Last.Value : null;
 
         if (lastWP != null)
@@ -52,7 +59,7 @@ public class WaypointsGenerator : WorldGeneratable
     {
         //TODO:
         //[ ]Add rotation chance
-        //[ ]Add route validation to avoid knots
+        //[X]Add route validation to avoid knots
 
         var x = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
         var y = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
@@ -62,11 +69,33 @@ public class WaypointsGenerator : WorldGeneratable
         var yRot = Random.Range(-GEN_WP_ANGLE_RND, GEN_WP_ANGLE_RND);
         var zRot = Random.Range(-GEN_WP_ANGLE_RND, GEN_WP_ANGLE_RND);
 
-        var newPos = new Vector3(x, y, z);
+        var newPos = new Vector3(x+ wp.transform.position.x , y , z );
         var newRot = new Vector3(xRot, yRot, zRot);
 
         wp.transform.position = newPos;
-        wp.transform.Rotate(newRot);
+       // wp.transform.Rotate(newRot);
+
+        if (!Validate(wp.transform))
+        {
+            RandomizeWP(wp);
+        }
+
+   }
+
+    private void SetZeroRotation(Transform wp)
+    {
+        wp.rotation = Quaternion.Euler(Vector3.zero);
+    }
+
+    private bool Validate(Transform wp)
+    {
+        foreach (var item in waypoints)
+        {
+            var dist = Vector3.Distance(wp.transform.position, item.position);
+            print(dist);
+            return (dist > GEN_MIN_WP_DISTANCE) ? true : false;
+        }
+        return true;
     }
 
 
