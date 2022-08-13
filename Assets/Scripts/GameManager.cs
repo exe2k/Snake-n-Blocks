@@ -6,6 +6,7 @@ using static CONST;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public int level = 1;
     
     void Start()
     {
@@ -18,8 +19,6 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
        if(RND_SEED>0) Random.InitState(RND_SEED);
-
-
     }
 
     void Update()

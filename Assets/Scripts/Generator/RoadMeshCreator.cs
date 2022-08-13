@@ -136,6 +136,7 @@ namespace PathCreation.Builder
             if (meshHolder == null)
             {
                 meshHolder = new GameObject("Road Mesh");
+                meshHolder.transform.SetParent(transform.parent);
             }
 
             meshHolder.transform.rotation = Quaternion.identity;

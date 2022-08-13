@@ -23,7 +23,9 @@ namespace PathCreation.Builder {
                 GetComponent<PathCreator>().bezierPath = bezierPath;
             }
 
-            GetComponent<RoadMeshCreator>().CreateRoad();
+            var roadMesh = GetComponent<RoadMeshCreator>();
+            roadMesh.textureTiling = waypoints.Count * CONST.TEXTURE_TILE_FACTOR; 
+            roadMesh.CreateRoad();
         }
     }
 }

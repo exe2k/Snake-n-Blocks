@@ -12,14 +12,14 @@ public class WaypointsGenerator : WorldGeneratable
 {
     public LinkedList<Transform> waypoints = new LinkedList<Transform>();
     [Min(2)]
-    public int WayPointsAmount = GEN_MIN_WAYPOINTS;
-
-
+    public int wayPointsAmount = 1;
 
     public void CreateWaypoints()
     {
+        wayPointsAmount += GEN_MIN_WAYPOINTS;
+
         Clear();
-        for (int i = 0; i < WayPointsAmount; i++)
+        for (int i = 0; i < wayPointsAmount; i++)
         {
             waypoints.AddLast(GenerateNewWaypoint());
         }

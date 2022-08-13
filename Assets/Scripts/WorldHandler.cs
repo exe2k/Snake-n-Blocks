@@ -9,17 +9,20 @@ public class WorldHandler : MonoBehaviour
 
     RoadCreator roadCreator;
     WaypointsGenerator waypointsGenerator;
+    [SerializeField] GameManager GM;
     public bool isWaypointsReady = false;
-    public bool isPathReady = false;
+     bool isPathReady = false;
 
     void Start()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
+        if(GM==null) GM = FindObjectOfType<GameManager>();
+
         roadCreator = FindObjectOfType<RoadCreator>();
         waypointsGenerator = FindObjectOfType<WaypointsGenerator>();
-
+        waypointsGenerator.wayPointsAmount = Mathf.Clamp(GM.level,CONST.GEN_MIN_WAYPOINTS,CONST.GEN_MAX_WAYPOINTS);
         StartCoroutine(Init());
     }
 
@@ -28,7 +31,7 @@ public class WorldHandler : MonoBehaviour
     {
         waypointsGenerator.CreateWaypoints();
 
-        if(!isWaypointsReady)
+        if(!isWaypointsReady && GameManager.instance!=null)
         yield return new WaitUntil(() => isWaypointsReady);
         
         roadCreator.waypoints = waypointsGenerator.waypoints;

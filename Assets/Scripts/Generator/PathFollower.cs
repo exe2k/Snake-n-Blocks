@@ -2,8 +2,6 @@
 
 namespace PathCreation.Builder
 {
-    // Moves along a path at constant speed.
-    // Depending on the end of path instruction, will either loop, reverse, or stop at the end of the path.
     public class PathFollower : MonoBehaviour
     {
         public PathCreator pathCreator;
@@ -14,7 +12,6 @@ namespace PathCreation.Builder
         void Start() {
             if (pathCreator != null)
             {
-                // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
                 pathCreator.pathUpdated += OnPathChanged;
             }
         }
