@@ -127,6 +127,7 @@ namespace PathCreation.Builder
             mesh.SetTriangles(underRoadTriangles, 1);
             mesh.SetTriangles(sideOfRoadTriangles, 2);
             mesh.RecalculateBounds();
+
         }
 
         // Add MeshRenderer and MeshFilter components to this gameobject if not already attached

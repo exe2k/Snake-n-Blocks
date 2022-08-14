@@ -11,8 +11,8 @@ public class WorldHandler : MonoBehaviour
     WaypointsGenerator waypointsGenerator;
     [SerializeField] GameManager GM;
     public bool isWaypointsReady = false;
-     bool isPathReady = false;
-
+    bool isPathReady = false;
+    
     void Start()
     {
         if (instance == null) instance = this;
@@ -36,6 +36,7 @@ public class WorldHandler : MonoBehaviour
         
         roadCreator.waypoints = waypointsGenerator.waypoints;
         roadCreator.GeneratePath();
+
         isPathReady = true;
     }
 }

@@ -15,17 +15,17 @@ namespace PathCreation.Builder {
         public void GeneratePath()
         {
             var wp_array = waypoints.ToArray();
-            print(waypoints.Count);
-
             if (waypoints.Count > 0)
             {
                 BezierPath bezierPath = new BezierPath(waypoints.ToArray(), closedLoop, PathSpace.xyz);
                 GetComponent<PathCreator>().bezierPath = bezierPath;
+                bezierPath.GlobalNormalsAngle = CONST.GLOBAL_NORMAL_ANGLE;
             }
 
             var roadMesh = GetComponent<RoadMeshCreator>();
             roadMesh.textureTiling = waypoints.Count * CONST.TEXTURE_TILE_FACTOR; 
             roadMesh.CreateRoad();
+            
         }
     }
 }

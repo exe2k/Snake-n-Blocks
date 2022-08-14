@@ -21,11 +21,8 @@ public class WaypointsGenerator : WorldGeneratable
         Clear();
         for (int i = 0; i < wayPointsAmount; i++)
         {
-            waypoints.AddLast(GenerateNewWaypoint());
+            waypoints.AddLast(GenerateNewWaypoint(i.ToString()));
         }
-
-        waypoints.First.Value.gameObject.name = "first";
-        waypoints.Last.Value.gameObject.name = "last";
 
         SetZeroRotation(waypoints.Last.Value);
         SetZeroRotation(waypoints.First.Value);
@@ -35,9 +32,9 @@ public class WaypointsGenerator : WorldGeneratable
 
     }
 
-    private Transform GenerateNewWaypoint()
+    private Transform GenerateNewWaypoint(string name="")
     {
-        var wp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        var wp = new GameObject("WayPoint_"+name);
         var lastWP = (waypoints.Count > 0) ? waypoints.Last.Value : null;
 
         if (lastWP != null)
@@ -92,7 +89,6 @@ public class WaypointsGenerator : WorldGeneratable
         foreach (var item in waypoints)
         {
             var dist = Vector3.Distance(wp.transform.position, item.position);
-            print(dist);
             return (dist > GEN_MIN_WP_DISTANCE) ? true : false;
         }
         return true;
