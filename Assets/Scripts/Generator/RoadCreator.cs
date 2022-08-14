@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using PathCreation.Builder;
 
 namespace PathCreation.Builder {
 
@@ -10,7 +9,6 @@ namespace PathCreation.Builder {
 
         public bool closedLoop = false; //default false
         public LinkedList<Transform> waypoints = new LinkedList<Transform>();
-
 
         public void GeneratePath()
         {

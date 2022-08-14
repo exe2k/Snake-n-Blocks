@@ -11,7 +11,7 @@ using static CONST;
 public class WaypointsGenerator : WorldGeneratable
 {
     public LinkedList<Transform> waypoints = new LinkedList<Transform>();
-    [Min(2)]
+    [Min(2)] 
     public int wayPointsAmount = 1;
 
     public void CreateWaypoints()
@@ -54,23 +54,14 @@ public class WaypointsGenerator : WorldGeneratable
 
     private void RandomizeWP(GameObject wp)
     {
-        //TODO:
-        //[ ]Add rotation chance
-        //[X]Add route validation to avoid knots
 
         var x = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
         var y = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
         var z = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
 
-        var xRot = Random.Range(-GEN_WP_ANGLE_RND, GEN_WP_ANGLE_RND);
-        var yRot = Random.Range(-GEN_WP_ANGLE_RND, GEN_WP_ANGLE_RND);
-        var zRot = Random.Range(-GEN_WP_ANGLE_RND, GEN_WP_ANGLE_RND);
-
         var newPos = new Vector3(x+ wp.transform.position.x , y , z );
-        var newRot = new Vector3(xRot, yRot, zRot);
 
         wp.transform.position = newPos;
-       // wp.transform.Rotate(newRot);
 
         if (!Validate(wp.transform))
         {

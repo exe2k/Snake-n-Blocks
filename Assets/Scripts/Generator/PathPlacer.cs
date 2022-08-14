@@ -38,9 +38,8 @@ namespace PathCreation.Builder {
         }
 
         protected override void PathUpdated () {
-            if (pathCreator != null) {
+            if (pathCreator != null) 
                 Generate ();
-            }
         }
     }
 }
