@@ -1,38 +1,30 @@
-using System;
 using UnityEngine;
+using PathCreation.Builder;
 
 /// <summary>Player Main Class</summary>
 
-[
-    RequireComponent(typeof(Rigidbody)),
-    RequireComponent(typeof(Collider)),
-]
-
+[RequireComponent(typeof(PathFollower))]
 
 public class Player : MonoBehaviour
 {
     public static Player instance;
+    PathFollower pathFollower;
     public bool isControlsOn = true;
-    [SerializeField] float speed = 20f;
+    [SerializeField] float speed = CONST.P_BASIC_SPEED;
+    [SerializeField] Transform headMesh;
+    [SerializeField] Transform linksMesh;
 
-    private Rigidbody rb;
-    void Start()
+    private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(this.gameObject);
-
-        rb = GetComponent<Rigidbody>();
+        pathFollower = GetComponent<PathFollower>();
     }
 
-
-
-
-    void FixedUpdate()
+    private void Update()
     {
-        rb.velocity = Vector3.forward * speed;
+        pathFollower.speed = speed;
 
-        //Controls();
     }
+
 
     private void Controls()
     {

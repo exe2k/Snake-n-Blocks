@@ -3,17 +3,15 @@ using UnityEngine;
 
 namespace PathCreation.Builder {
 
-    [ExecuteInEditMode]
     public class PathPlacer : PathSceneTool {
 
-        public GameObject prefab;
-        public GameObject holder;
+        public GameObject  prefab;
         public float spacing = 3;
 
         const float minSpacing = .1f;
 
-        void Generate () {
-            if (pathCreator != null && prefab != null && holder != null) {
+        public void Generate () {
+            if (pathCreator != null && prefab!=null ) {
                 DestroyObjects ();
 
                 VertexPath path = pathCreator.path;
@@ -24,22 +22,24 @@ namespace PathCreation.Builder {
                 while (dst < path.length) {
                     Vector3 point = path.GetPointAtDistance (dst);
                     Quaternion rot = path.GetRotationAtDistance (dst);
-                    Instantiate (prefab, point, rot, holder.transform);
+                    var spawner = Instantiate (prefab, point, rot, transform);
+                    spawner.GetComponent<Spawner>().distance = dst;
                     dst += spacing;
                 }
             }
         }
 
         void DestroyObjects () {
-            int numChildren = holder.transform.childCount;
+            int numChildren = transform.childCount;
             for (int i = numChildren - 1; i >= 0; i--) {
-                DestroyImmediate (holder.transform.GetChild (i).gameObject, false);
+                DestroyImmediate (transform.GetChild (i).gameObject, false);
             }
         }
 
         protected override void PathUpdated () {
-            if (pathCreator != null) 
-                Generate ();
+           // if (pathCreator != null) 
+              //  Generate ();
         }
+
     }
 }
