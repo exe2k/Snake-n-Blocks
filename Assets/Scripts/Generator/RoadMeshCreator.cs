@@ -2,7 +2,7 @@
 using PathCreation.Utility;
 using UnityEngine;
 
-namespace PathCreation.Examples
+namespace PathCreation.Builder
 {
     public class RoadMeshCreator : PathSceneTool
     {
@@ -127,6 +127,7 @@ namespace PathCreation.Examples
             mesh.SetTriangles(underRoadTriangles, 1);
             mesh.SetTriangles(sideOfRoadTriangles, 2);
             mesh.RecalculateBounds();
+
         }
 
         // Add MeshRenderer and MeshFilter components to this gameobject if not already attached
@@ -136,6 +137,7 @@ namespace PathCreation.Examples
             if (meshHolder == null)
             {
                 meshHolder = new GameObject("Road Mesh");
+                meshHolder.transform.SetParent(transform.parent);
             }
 
             meshHolder.transform.rotation = Quaternion.identity;

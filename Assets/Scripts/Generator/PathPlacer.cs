@@ -1,7 +1,7 @@
 ﻿using PathCreation;
 using UnityEngine;
 
-namespace PathCreation.Examples {
+namespace PathCreation.Builder {
 
     [ExecuteInEditMode]
     public class PathPlacer : PathSceneTool {
@@ -38,9 +38,8 @@ namespace PathCreation.Examples {
         }
 
         protected override void PathUpdated () {
-            if (pathCreator != null) {
+            if (pathCreator != null) 
                 Generate ();
-            }
         }
     }
 }
