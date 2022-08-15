@@ -5,15 +5,16 @@ using TMPro;
 [
     RequireComponent(typeof(AudioSource)),
     RequireComponent(typeof(BoxCollider)),
+    RequireComponent(typeof(LoopMover)),
 ]
 
 public abstract class Collectable : MonoBehaviour
 {
     protected int points = 0;
     protected bool isCollected = false;
+    public bool isMoving=false;
 
     TextMeshPro txt = null;
-
 
     [Header("Audio")]
     protected bool isDestroyAfterSoundPlayed = true;
@@ -32,6 +33,8 @@ public abstract class Collectable : MonoBehaviour
         txt = GetComponentInChildren<TextMeshPro>();
         if (txt != null) txt.text = points.ToString();
         else print("TMPro not found in " + name);
+
+        if (!isMoving) GetComponent<LoopMover>().enabled = false;
 
         Init();
     }
@@ -69,6 +72,11 @@ public abstract class Collectable : MonoBehaviour
     {
         if (isCollected && isDestroyAfterSoundPlayed)
             Destroy(gameObject);
+    }
+
+    protected void UpdateText()
+    {
+        txt.text = points.ToString();
     }
 
 }

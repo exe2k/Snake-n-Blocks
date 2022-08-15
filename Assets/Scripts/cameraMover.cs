@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cameraMover : MonoBehaviour
+public class CameraMover : MonoBehaviour
 {
     public Vector3 direction, rotation;
 
