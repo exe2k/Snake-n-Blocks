@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using PathCreation.Builder;
 
 /// <summary>Player Main Class</summary>
@@ -12,6 +14,7 @@ public class Player : MonoBehaviour
 
     public bool isControlsOn = true;
     private int points = 1;
+    LinkedList<Transform> links = new LinkedList<Transform>();
 
     [SerializeField] float speed = CONST.P_BASIC_SPEED;
     [SerializeField] Transform headMesh;
@@ -40,29 +43,51 @@ public class Player : MonoBehaviour
     {
         pathFollower.speed = speed;
         Controls();
+        LinksMove();
     }
-
 
     private void Controls()
     {
-        var mouse = Input.mousePosition.normalized.x*2;
+        var mouse = Input.mousePosition.normalized.x * 2;
         head.transform.localPosition = new Vector3(0, 0, mouse);
     }
 
+    private void LinksMove()
+    {
+        foreach (var link in links)
+        {
+            link.transform.position += new Vector3(0, 11, 0);
+         }
+    }
 
     public void AddPoints(int val)
     {
         points += val;
         print(points);
+        AddLink();
     }
 
     public void TakeDamage(int val)
     {
         points -= val;
         print(points);
-        if (points < 1) 
+        if (points < 1)
             Die();
+    }
 
+    private void AddLink()
+    {
+        var link = new GameObject().transform;
+        link.name = "Link" + links.Count;
+        links.AddLast(link);
+       
+        var linkPF = link.gameObject.AddComponent<PathFollower>();
+        linkPF.pathCreator = pathFollower.pathCreator;
+        linkPF.speed = speed;
+        linkPF.distanceTravelled = pathFollower.distanceTravelled-(1.2f*links.Count);
+
+        var linkInnerMesh = Instantiate(linksMesh,link);
+        linkInnerMesh.localPosition = container.localPosition;
     }
 
     private void Die()
