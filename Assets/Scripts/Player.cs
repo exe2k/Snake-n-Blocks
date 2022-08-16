@@ -82,6 +82,9 @@ public class Player : MonoBehaviour
             if(innerPart!=null)
                 innerPart.localPosition = Vector3.Slerp(innerPart.localPosition, innerPartPrev.localPosition, t);
 
+            //to be ON the road, not inside
+            innerPart.localPosition = new Vector3(-.5f, innerPart.localPosition.y, innerPart.localPosition.z);
+
             curLink.position = Vector3.Slerp(curLink.position, newPos, t);
             curLink.rotation = Quaternion.Slerp(curLink.rotation, prevLink.rotation, t);
         }
