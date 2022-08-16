@@ -25,11 +25,16 @@ public class Obstacle : Collectable
             sfx_as.PlayOneShot(destroySound);
             Destroy(gameObject);
         }
+        else
+        {
+            Player.instance.HitBack();
+        }
     }
 
     protected override void SetPoints()
     {
         points = Random.Range(1, CONST.OBSTACLE_MAX_POINTS);
+
     }
 
     private void Validate()
@@ -39,6 +44,7 @@ public class Obstacle : Collectable
         {
            objs[0].points = Mathf.Clamp(points, 1, CONST.OBSTACLE_MAX_POINTS / 5);
         }
+        UpdateVisual();
     }
 
 

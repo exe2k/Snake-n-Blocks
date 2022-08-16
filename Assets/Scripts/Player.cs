@@ -123,11 +123,14 @@ public class Player : MonoBehaviour
         }
 
         RemoveLink();
+    }
 
-        //move back on damage
+    //move back on damage
+    public void HitBack()
+    {
         foreach (var l in links)
         {
-            l.GetComponent<PathFollower>().distanceTravelled -=  CONST.P_LINKS_OFFSET * 4 ;
+            l.GetComponent<PathFollower>().distanceTravelled -= CONST.P_LINKS_OFFSET * 4;
         }
     }
 
