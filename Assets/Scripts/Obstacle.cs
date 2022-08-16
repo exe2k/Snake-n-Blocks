@@ -3,15 +3,28 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Obstacle : Collectable
 {
+    [SerializeField] AudioClip destroySound;
+
     protected override void Init()
     {
         Validate();
         UpdateVisual();
+        isDestroyAfterSoundPlayed = false;
     }
 
     protected override void CollectExtraCode()
     {
-        Player.instance.TakeDamage(points);
+        Player.instance.TakeDamage();
+        points--;
+        if (points <= 0)
+        {
+            var sfx = new GameObject();
+            sfx.transform.position = transform.position;
+            AudioSource sfx_as = sfx.AddComponent<AudioSource>();
+            sfx_as.spatialBlend = _as.spatialBlend;
+            sfx_as.PlayOneShot(destroySound);
+            Destroy(gameObject);
+        }
     }
 
     protected override void SetPoints()

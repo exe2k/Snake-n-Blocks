@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
 using PathCreation.Builder;
 
@@ -13,7 +12,8 @@ public class Player : MonoBehaviour
     public static Player instance;
     PathFollower pathFollower;
 
-    public bool isControlsOn = true;
+    private bool isControlsOn = true;
+    public bool isAlive = true;
     private int points = 1;
     public float distance { get; private set; }
     public float prevDistance { get; private set; }
@@ -56,8 +56,17 @@ public class Player : MonoBehaviour
 
     private void Controls()
     {
-        var mouse = Input.mousePosition.normalized.x * 2;
-        head.transform.localPosition = new Vector3(0, mouse);
+        if (!isControlsOn)
+        {
+            speed *= 0;
+            return;
+        }
+        else
+        {
+            speed *= 1;
+            var mouse = Input.mousePosition.normalized.x * 2;
+            head.transform.localPosition = new Vector3(0, mouse);
+        }
     }
 
 
@@ -71,22 +80,22 @@ public class Player : MonoBehaviour
             float dis = Vector3.Distance(curLink.position, prevLink.position);
             Vector3 newPos = prevLink.position;
 
-
-            float t = Time.deltaTime * dis / CONST.P_LINKS_OFFSET * speed;
-
-            if (t > 2) t = 2;
+            float t = Time.deltaTime * dis / CONST.P_LINKS_OFFSET * speed ;
+            if (t > CONST.P_LINKS_OFFSET) t = CONST.P_LINKS_OFFSET;
 
             var innerPart = curLink.GetChild(0);
             var innerPartPrev = (i == 1) ? head : prevLink.GetChild(0);
-            
-            if(innerPart!=null)
+
+            if (innerPart != null)
                 innerPart.localPosition = Vector3.Slerp(innerPart.localPosition, innerPartPrev.localPosition, t);
 
-            //to be ON the road, not inside
+            //to be ON the road, not stucked in the mid
             innerPart.localPosition = new Vector3(-.5f, innerPart.localPosition.y, innerPart.localPosition.z);
-
-            curLink.position = Vector3.Slerp(curLink.position, newPos, t);
-            curLink.rotation = Quaternion.Slerp(curLink.rotation, prevLink.rotation, t);
+            
+            /* 
+              curLink.position = Vector3.Slerp(curLink.position, newPos, t);
+              curLink.rotation = Quaternion.Slerp(curLink.rotation, prevLink.rotation, t);
+            */
         }
 
     }
@@ -94,14 +103,41 @@ public class Player : MonoBehaviour
     public void AddPoints(int val)
     {
         points += val;
-        AddLink();
+        for (int i = 0; i < val; i++)
+        {
+            AddLink();
+        }
+        
     }
 
-    public void TakeDamage(int val)
+    public void TakeDamage()
     {
-        points -= val;
+        points--;
+
+        print(points);
+
         if (points < 1)
+        {
             Die();
+            return;
+        }
+
+        RemoveLink();
+
+        //move back on damage
+        foreach (var l in links)
+        {
+            l.GetComponent<PathFollower>().distanceTravelled -=  CONST.P_LINKS_OFFSET * 4 ;
+        }
+    }
+
+    private void RemoveLink()
+    {
+        if (links.Count < 2) return;
+
+        Transform removed = links[links.Count - 1];
+        links.RemoveAt(links.Count - 1);
+        Destroy(removed.gameObject);
     }
 
     private void AddLink()
@@ -113,19 +149,18 @@ public class Player : MonoBehaviour
         var linkInnerMesh = Instantiate(linksMesh, link);
         linkInnerMesh.localPosition = container.localPosition;
 
-        /*  //automatic move
-          
-         var linkPF = link.gameObject.AddComponent<PathFollower>();
-         linkPF.pathCreator = pathFollower.pathCreator;
-         linkPF.speed = speed;
-         linkPF.distanceTravelled = pathFollower.distanceTravelled - CONST.P_LINKS_OFFSET * links.Count;
-        */
+        //automatic move
 
+        var linkPF = link.gameObject.AddComponent<PathFollower>();
+        linkPF.pathCreator = pathFollower.pathCreator;
+        linkPF.speed = speed;
+        linkPF.distanceTravelled = pathFollower.distanceTravelled - CONST.P_LINKS_OFFSET * links.Count+1;
     }
 
     private void Die()
     {
         print("died");
         isControlsOn = false;
+        isAlive = false;
     }
 }

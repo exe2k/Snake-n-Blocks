@@ -157,7 +157,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.686
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -210,7 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 0
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 362aafb17b9c95442bfae8b79dd3359b, type: 3}
+  destroySound: {fileID: 8300000, guid: 89276ded6ef240f47ae9f78d42e19fcb, type: 3}
 --- !u!114 &6809993138481854469
 MonoBehaviour:
   m_ObjectHideFlags: 0
