@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using PathCreation.Builder;
 
@@ -14,7 +15,11 @@ public class Player : MonoBehaviour
 
     public bool isControlsOn = true;
     private int points = 1;
-    LinkedList<Transform> links = new LinkedList<Transform>();
+    public float distance { get; private set; }
+    public float prevDistance { get; private set; }
+
+    List<Transform> links = new List<Transform>();
+    Dictionary<float, float> checkpoints = new Dictionary<float, float>();
 
     [SerializeField] float speed = CONST.P_BASIC_SPEED;
     [SerializeField] Transform headMesh;
@@ -36,12 +41,15 @@ public class Player : MonoBehaviour
 
         head = Instantiate(headMesh, container);
         head.gameObject.AddComponent<Rigidbody>().isKinematic = true;
+        links.Add(Player.instance.transform);
 
     }
 
     private void Update()
     {
         pathFollower.speed = speed;
+        distance = pathFollower.distanceTravelled;
+
         Controls();
         LinksMove();
     }
@@ -49,28 +57,46 @@ public class Player : MonoBehaviour
     private void Controls()
     {
         var mouse = Input.mousePosition.normalized.x * 2;
-        head.transform.localPosition = new Vector3(0, 0, mouse);
+        head.transform.localPosition = new Vector3(0, mouse);
     }
+
 
     private void LinksMove()
     {
-        foreach (var link in links)
+        for (int i = 1; i < links.Count; i++)
         {
-            link.transform.position += new Vector3(0, 11, 0);
-         }
+            var curLink = links[i];
+            var prevLink = links[i - 1];
+
+            float dis = Vector3.Distance(curLink.position, prevLink.position);
+            Vector3 newPos = prevLink.position;
+
+
+            float t = Time.deltaTime * dis / CONST.P_LINKS_OFFSET * speed;
+
+            if (t > 2) t = 2;
+
+            var innerPart = curLink.GetChild(0);
+            var innerPartPrev = (i == 1) ? head : prevLink.GetChild(0);
+            
+            if(innerPart!=null)
+                innerPart.localPosition = Vector3.Slerp(innerPart.localPosition, innerPartPrev.localPosition, t);
+
+            curLink.position = Vector3.Slerp(curLink.position, newPos, t);
+            curLink.rotation = Quaternion.Slerp(curLink.rotation, prevLink.rotation, t);
+        }
+
     }
 
     public void AddPoints(int val)
     {
         points += val;
-        print(points);
         AddLink();
     }
 
     public void TakeDamage(int val)
     {
         points -= val;
-        print(points);
         if (points < 1)
             Die();
     }
@@ -79,15 +105,19 @@ public class Player : MonoBehaviour
     {
         var link = new GameObject().transform;
         link.name = "Link" + links.Count;
-        links.AddLast(link);
-       
-        var linkPF = link.gameObject.AddComponent<PathFollower>();
-        linkPF.pathCreator = pathFollower.pathCreator;
-        linkPF.speed = speed;
-        linkPF.distanceTravelled = pathFollower.distanceTravelled-(1.2f*links.Count);
-
-        var linkInnerMesh = Instantiate(linksMesh,link);
+        link.localRotation = container.localRotation;
+        links.Add(link);
+        var linkInnerMesh = Instantiate(linksMesh, link);
         linkInnerMesh.localPosition = container.localPosition;
+
+        /*  //automatic move
+          
+         var linkPF = link.gameObject.AddComponent<PathFollower>();
+         linkPF.pathCreator = pathFollower.pathCreator;
+         linkPF.speed = speed;
+         linkPF.distanceTravelled = pathFollower.distanceTravelled - CONST.P_LINKS_OFFSET * links.Count;
+        */
+
     }
 
     private void Die()

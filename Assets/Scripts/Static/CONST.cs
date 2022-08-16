@@ -31,4 +31,6 @@ public class CONST
 
     //Player:
     public const float P_BASIC_SPEED = 5;
+    public const float P_LINKS_OFFSET = 1.2f;
+
 }
