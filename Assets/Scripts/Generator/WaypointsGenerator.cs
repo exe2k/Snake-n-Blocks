@@ -27,6 +27,7 @@ public class WaypointsGenerator : WorldGeneratable
         SetZeroRotation(waypoints.Last.Value);
         SetZeroRotation(waypoints.First.Value);
         SetZeroRotation(waypoints.First.Next.Value);
+        waypoints.Last.Value.position = waypoints.Last.Previous.Value.position + new Vector3(GEN_MIN_WP_DISTANCE, 0, 0);
 
         WorldHandler.instance.isWaypointsReady = true;
 
@@ -56,7 +57,7 @@ public class WaypointsGenerator : WorldGeneratable
     {
 
         var x = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
-        var y = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
+        var y = Random.Range(GEN_MIN_WP_DISTANCE/2, GEN_MAX_WP_DISTANCE/2);
         var z = Random.Range(GEN_MIN_WP_DISTANCE, GEN_MAX_WP_DISTANCE);
 
         var newPos = new Vector3(x+ wp.transform.position.x , y , z );
@@ -73,6 +74,11 @@ public class WaypointsGenerator : WorldGeneratable
     private void SetZeroRotation(Transform wp)
     {
         wp.rotation = Quaternion.Euler(Vector3.zero);
+    }
+
+    private void SetYpos(Transform wp)
+    {
+        wp.transform.position = new Vector3(wp.transform.position.x, 0, wp.transform.position.z);
     }
 
     private bool Validate(Transform wp)
