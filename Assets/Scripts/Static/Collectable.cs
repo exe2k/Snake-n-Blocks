@@ -12,9 +12,10 @@ public abstract class Collectable : MonoBehaviour
 {
     protected int points = 0;
     protected bool isCollected = false;
-    public bool isMoving=false;
+    public bool isMoving = false;
 
     TextMeshPro txt = null;
+    Rigidbody rb;
 
     [Header("Audio")]
     protected bool isDestroyAfterSoundPlayed = true;
@@ -36,6 +37,8 @@ public abstract class Collectable : MonoBehaviour
 
         if (!isMoving) GetComponent<LoopMover>().enabled = false;
 
+        GetComponent<BoxCollider>().isTrigger = true;
+
         Init();
     }
 
@@ -51,26 +54,25 @@ public abstract class Collectable : MonoBehaviour
 
     protected abstract void SetPoints();
 
-    public virtual int Collect() 
+    public virtual void Collect()
     {
         PlaySound();
         isCollected = true;
         CollectExtraCode();
-        return points;
     }
-   
+
     //to avoid of using :base.Collect() and prevent bugs beacause I forgot to write that.
-    protected abstract void CollectExtraCode(); 
+    protected abstract void CollectExtraCode();
 
     private void PlaySound()
     {
-        if (_as == null) return;
+       if (_as == null) return;
         _as.PlayOneShot(clip);
     }
 
     private void DestroyObserver()
     {
-        if (isCollected && isDestroyAfterSoundPlayed)
+        if (isCollected && isDestroyAfterSoundPlayed && !_as.isPlaying)
             Destroy(gameObject);
     }
 
@@ -79,4 +81,10 @@ public abstract class Collectable : MonoBehaviour
         txt.text = points.ToString();
     }
 
+
+    protected void OnTriggerEnter(Collider col)
+    {
+        if(col.GetComponentInParent<Player>())
+            Collect();
+    }
 }

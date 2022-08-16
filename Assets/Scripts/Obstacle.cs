@@ -11,7 +11,7 @@ public class Obstacle : Collectable
 
     protected override void CollectExtraCode()
     {
-        print("hit Player");
+        Player.instance.TakeDamage(points);
     }
 
     protected override void SetPoints()
