@@ -40,11 +40,13 @@ public class Obstacle : Collectable
     private void Validate()
     {
         var objs = transform.parent.GetComponentsInChildren<Obstacle>();
-        if (objs.Length > 2 && Random.Range(1,10)>5)
+        if (objs.Length == 3)
         {
-           objs[0].points = Mathf.Clamp(points, 1, CONST.OBSTACLE_MAX_POINTS / 5);
+            var rnd_object = Random.Range(0, 3);
+            objs[rnd_object].points = Mathf.Clamp(points, 1, CONST.OBSTACLE_MAX_POINTS / 5);
+            objs[rnd_object].UpdateVisual();
         }
-        UpdateVisual();
+
     }
 
 
@@ -56,4 +58,11 @@ public class Obstacle : Collectable
 
         UpdateText();
     }
+
+    private void OnEnable()
+    {
+        try { UpdateVisual(); }
+        catch { };
+    }
+
 }

@@ -78,6 +78,7 @@ public abstract class Collectable : MonoBehaviour
 
     protected void UpdateText()
     {
+        if(txt!=null)
         txt.text = points.ToString();
     }
 
