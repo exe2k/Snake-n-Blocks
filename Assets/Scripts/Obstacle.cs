@@ -4,10 +4,12 @@ using UnityEngine;
 public class Obstacle : Collectable
 {
     [SerializeField] AudioClip destroySound;
+    int rnd_object;
 
     protected override void Init()
     {
-        Validate();
+        rnd_object = Random.Range(0, 3);
+       // Validate();
         UpdateVisual();
         isDestroyAfterSoundPlayed = false;
     }
@@ -42,7 +44,6 @@ public class Obstacle : Collectable
         var objs = transform.parent.GetComponentsInChildren<Obstacle>();
         if (objs.Length == 3)
         {
-            var rnd_object = Random.Range(0, 3);
             objs[rnd_object].points = Mathf.Clamp(points, 1, CONST.OBSTACLE_MAX_POINTS / 5);
             objs[rnd_object].UpdateVisual();
         }

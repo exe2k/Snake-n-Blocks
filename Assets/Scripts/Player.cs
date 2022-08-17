@@ -114,8 +114,6 @@ public class Player : MonoBehaviour
     {
         points--;
 
-        print(points);
-
         if (points < 1)
         {
             Die();
@@ -130,7 +128,7 @@ public class Player : MonoBehaviour
     {
         foreach (var l in links)
         {
-            l.GetComponent<PathFollower>().distanceTravelled -= CONST.P_LINKS_OFFSET * 4;
+            l.GetComponent<PathFollower>().distanceTravelled -= CONST.P_LINKS_OFFSET * 3.3f;
         }
     }
 
