@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Food : Collectable
 {
+    protected override void Init()
+    {
+        Rotator rot = GetComponentInChildren<Rotator>();
+        var rnd = Random.Range(1f, 3f);
+        if (rot != null)
+            rot.AnglePerSecond *= rnd;
+    }
     protected override void CollectExtraCode()
     {
         Player.instance.AddPoints(points);
