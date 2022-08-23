@@ -23,13 +23,13 @@ public class Optimizer : MonoBehaviour
     private void SwitchAhead()
     {
         if (container == null) return;
-        bool b = (distance - Player.instance.distance <= FAR_VISIBLE_DIST) ? true : false;
+        bool b = (distance - Player.instance?.distance <= FAR_VISIBLE_DIST) ? true : false;
         container.gameObject.SetActive(b);
     }
 
     private void KillBehind()
     {
-        if (distance - Player.instance.distance <= KILL_BEHIND_DIST)
+        if (distance - Player.instance?.distance <= KILL_BEHIND_DIST)
             Destroy(gameObject);
     }
 }

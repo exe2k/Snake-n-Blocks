@@ -7,10 +7,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int level = 1;
-    
+
+    [SerializeField] WorldHandler world;
+    [SerializeField] Player player;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
     void Start()
     {
-        if (instance != null) instance = this;
+        if (instance == null) instance = this;
         else Destroy(gameObject);
 
         Init();
@@ -18,11 +25,18 @@ public class GameManager : MonoBehaviour
 
     private void Init()
     {
-       if(RND_SEED>0) Random.InitState(RND_SEED);
+        if (RND_SEED > 0) Random.InitState(RND_SEED);
+
+        world.GM = this;
+        var w = Instantiate(world);
+        StartCoroutine(WaitForWorld());
     }
 
-    void Update()
+    IEnumerator WaitForWorld()
     {
-        
+        if (WorldHandler.instance==null || WorldHandler.instance.isPathReady==false )
+            yield return 0;
+
+        Instantiate(player);
     }
 }

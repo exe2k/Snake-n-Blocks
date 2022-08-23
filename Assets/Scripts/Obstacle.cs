@@ -18,6 +18,7 @@ public class Obstacle : Collectable
     {
         Player.instance.TakeDamage();
         points--;
+        UpdateVisual();
         if (points <= 0)
         {
             var sfx = new GameObject();

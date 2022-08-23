@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using PathCreation.Builder;
+using PathCreation;
 
 /// <summary>Player Main Class</summary>
 
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
         if (Player.instance == null) instance = this;
 
         pathFollower = GetComponent<PathFollower>();
+        pathFollower.pathCreator = FindObjectOfType<PathCreator>();
+
         if (linksMesh == null && headMesh != null)
             linksMesh = headMesh;
 
@@ -130,6 +133,12 @@ public class Player : MonoBehaviour
         {
             l.GetComponent<PathFollower>().distanceTravelled -= CONST.P_LINKS_OFFSET * 3.3f;
         }
+    }
+
+    public void Finish()
+    {
+        print("Done");
+        isControlsOn = false;
     }
 
     private void RemoveLink()
