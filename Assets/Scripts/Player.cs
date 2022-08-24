@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public bool isAlive = true;
     private int points = 1;
     public float distance { get; private set; }
+    public float fullDistance { get; private set; }
     public float prevDistance { get; private set; }
 
     List<Transform> links = new List<Transform>();
@@ -55,6 +56,8 @@ public class Player : MonoBehaviour
         GM?.OnStateChanged.AddListener(SwitchState);
 
         speed += (GM.level / 10);
+
+        fullDistance = pathFollower.pathCreator.path.length;
     }
 
     private void SwitchState(GameManager.GameStates state)

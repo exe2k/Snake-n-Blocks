@@ -11,9 +11,11 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        allScreens = new RectTransform[] { startUI, gameUI, loseUI, winUI};
+        allScreens = new RectTransform[] { startUI, gameUI, loseUI, winUI };
         GM.OnStateChanged.AddListener(SwitchScreen);
         Player.onPointsChanged.AddListener(UpdateGameScreen);
+
+        ShowStart();
     }
 
     private void UpdateGameScreen(int points)
@@ -55,6 +57,7 @@ public class UIController : MonoBehaviour
         SwitchOffAll();
         gameUI.gameObject.SetActive(true);
         UpdateGameScreen(0);
+        gameUI.Find("LevelText").GetComponent<TextMeshProUGUI>().text = "LEVEL "+GM.level ;
     }
 
     void ShowLose()
