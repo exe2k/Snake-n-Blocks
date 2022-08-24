@@ -12,8 +12,9 @@ public class Player : MonoBehaviour
 {
     public static Player instance;
     PathFollower pathFollower;
+    GameManager GM;
 
-    private bool isControlsOn = true;
+    public bool isControlsOn = false;
     public bool isAlive = true;
     private int points = 1;
     public float distance { get; private set; }
@@ -31,7 +32,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        if (Player.instance == null) instance = this;
+        if (instance != null && instance!=this) Destroy(instance.gameObject);
+        instance = this;
 
         pathFollower = GetComponent<PathFollower>();
         pathFollower.pathCreator = FindObjectOfType<PathCreator>();
@@ -44,8 +46,18 @@ public class Player : MonoBehaviour
 
         head = Instantiate(headMesh, container);
         head.gameObject.AddComponent<Rigidbody>().isKinematic = true;
+        links.Clear();
         links.Add(Player.instance.transform);
 
+        GM = FindObjectOfType<GameManager>();
+        GM?.OnStateChanged.AddListener(SwitchState);
+
+        speed += (GM.level / 10);
+    }
+
+    private void SwitchState(GameManager.GameStates state)
+    {
+        isControlsOn = (state == GameManager.GameStates.game) ? true : false;
     }
 
     private void Update()
@@ -66,7 +78,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            speed *= 1;
+            speed = CONST.P_BASIC_SPEED+(GM.level/10);
             var mouse = Input.mousePosition.normalized.x * 2;
             head.transform.localPosition = new Vector3(0, mouse);
         }
@@ -80,10 +92,12 @@ public class Player : MonoBehaviour
             var curLink = links[i];
             var prevLink = links[i - 1];
 
+            curLink.GetComponent<PathFollower>().speed = speed;
+
             float dis = Vector3.Distance(curLink.position, prevLink.position);
             Vector3 newPos = prevLink.position;
 
-            float t = Time.deltaTime * dis / CONST.P_LINKS_OFFSET * speed ;
+            float t = Time.deltaTime * dis / CONST.P_LINKS_OFFSET * speed;
             if (t > CONST.P_LINKS_OFFSET) t = CONST.P_LINKS_OFFSET;
 
             var innerPart = curLink.GetChild(0);
@@ -94,11 +108,6 @@ public class Player : MonoBehaviour
 
             //to be ON the road, not stucked in the mid
             innerPart.localPosition = new Vector3(-.5f, innerPart.localPosition.y, innerPart.localPosition.z);
-            
-            /* 
-              curLink.position = Vector3.Slerp(curLink.position, newPos, t);
-              curLink.rotation = Quaternion.Slerp(curLink.rotation, prevLink.rotation, t);
-            */
         }
 
     }
@@ -110,7 +119,7 @@ public class Player : MonoBehaviour
         {
             AddLink();
         }
-        
+
     }
 
     public void TakeDamage()
@@ -137,9 +146,11 @@ public class Player : MonoBehaviour
 
     public void Finish()
     {
-        print("Done");
-        isControlsOn = false;
+        RemoveAllLinks();
+        GM.SetState(GameManager.GameStates.win);
+        GM.level++;
     }
+
 
     private void RemoveLink()
     {
@@ -155,22 +166,33 @@ public class Player : MonoBehaviour
         var link = new GameObject().transform;
         link.name = "Link" + links.Count;
         link.localRotation = container.localRotation;
+        link.SetParent(transform);
         links.Add(link);
         var linkInnerMesh = Instantiate(linksMesh, link);
         linkInnerMesh.localPosition = container.localPosition;
 
-        //automatic move
-
         var linkPF = link.gameObject.AddComponent<PathFollower>();
         linkPF.pathCreator = pathFollower.pathCreator;
         linkPF.speed = speed;
-        linkPF.distanceTravelled = pathFollower.distanceTravelled - CONST.P_LINKS_OFFSET * links.Count+1;
+        linkPF.distanceTravelled = pathFollower.distanceTravelled - CONST.P_LINKS_OFFSET * links.Count + 1;
     }
 
     private void Die()
     {
-        print("died");
-        isControlsOn = false;
+        GM.SetState(GameManager.GameStates.lose);
         isAlive = false;
+    }
+
+    private void RemoveAllLinks()
+    {
+        for (int i = 0; i < links.Count-1; i++)
+        {
+            RemoveLink();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        RemoveAllLinks();
     }
 }

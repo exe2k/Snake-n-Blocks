@@ -32,6 +32,7 @@ public class WorldHandler : MonoBehaviour
 
     IEnumerator Init()
     {
+        waypointsGenerator.wayPointsAmount = GM.level;
         waypointsGenerator.CreateWaypoints();
 
         if(!isWaypointsReady && GameManager.instance!=null)

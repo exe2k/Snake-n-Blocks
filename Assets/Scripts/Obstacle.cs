@@ -27,6 +27,7 @@ public class Obstacle : Collectable
             sfx_as.spatialBlend = _as.spatialBlend;
             sfx_as.PlayOneShot(destroySound);
             Destroy(gameObject);
+            Destroy(sfx_as, 5);
         }
         else
         {

@@ -10,6 +10,8 @@ namespace PathCreation.Builder
         public GameObject prefab;
         public GameObject finish;
         public float spacing = 3;
+        [SerializeField] [Min(0)] 
+        float startEmptySpace = 10;
         const float minSpacing = .1f;
 
         public void Generate()
@@ -30,7 +32,7 @@ namespace PathCreation.Builder
                     dst += spacing;
                     if (path.length - dst < 1)
                         Instantiate(finish, point, rot, transform);
-                    else
+                    else if(dst> startEmptySpace)
                     {
                         var spawner = Instantiate(prefab, point, rot, transform);
                         spawner.GetComponent<Spawner>().distance = dst;

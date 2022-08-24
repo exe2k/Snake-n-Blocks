@@ -30,7 +30,7 @@ public class CONST
     public const float CAM_OFFSET_Z = 4;
 
     //Player:
-    public const float P_BASIC_SPEED = 5;
+    public const float P_BASIC_SPEED = 13;
     public const float P_LINKS_OFFSET = 1.1f;
     public const float P_LINKS_SIDE_SPEED_FACTOR = .75f;
 
