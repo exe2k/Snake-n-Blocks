@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7750835087656398857}
   - component: {fileID: 7750835087656398858}
   - component: {fileID: 7750835087656398859}
+  - component: {fileID: 7336141715097765188}
   m_Layer: 0
   m_Name: Food_Apple
   m_TagString: Untagged
@@ -157,7 +158,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363c7a489466629479de2d1c83341a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  isMoving: 0
+  clip: {fileID: 8300000, guid: c8cbb6c8f70d83648bba89108fb59a1e, type: 3}
+--- !u!114 &7336141715097765188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7750835087656398862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488f00ee80697e3499dba1861c40fd53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7750835087698736726
 GameObject:
   m_ObjectHideFlags: 0

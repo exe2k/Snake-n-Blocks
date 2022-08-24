@@ -10,15 +10,15 @@ public class WorldHandler : MonoBehaviour
     RoadCreator roadCreator;
     WaypointsGenerator waypointsGenerator;
     PathPlacer pathPlacer;
-    [SerializeField] GameManager GM;
+    public GameManager GM;
     public bool isWaypointsReady = false;
-    bool isPathReady = false;
+    public bool isPathReady = false;
 
     
     void Start()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance != null) Destroy(instance.gameObject); 
+        instance = this;
 
         if(GM==null) GM = FindObjectOfType<GameManager>();
 
@@ -32,6 +32,7 @@ public class WorldHandler : MonoBehaviour
 
     IEnumerator Init()
     {
+        waypointsGenerator.wayPointsAmount = GM.level;
         waypointsGenerator.CreateWaypoints();
 
         if(!isWaypointsReady && GameManager.instance!=null)

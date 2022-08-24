@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2827461380837789206}
   - component: {fileID: 2827461380837789193}
   - component: {fileID: 2827461380837789192}
+  - component: {fileID: 6809993138481854469}
   m_Layer: 0
   m_Name: Obstacle_default
   m_TagString: Untagged
@@ -95,7 +96,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2827461380837789195}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -156,7 +157,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.686
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -208,7 +209,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd600416936843a4b9940d45b3966f17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 0}
+  isMoving: 0
+  clip: {fileID: 8300000, guid: 362aafb17b9c95442bfae8b79dd3359b, type: 3}
+  destroySound: {fileID: 8300000, guid: 89276ded6ef240f47ae9f78d42e19fcb, type: 3}
+--- !u!114 &6809993138481854469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827461380837789195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 488f00ee80697e3499dba1861c40fd53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2827461381025974804
 GameObject:
   m_ObjectHideFlags: 0

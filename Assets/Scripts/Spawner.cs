@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static CONST;
 
+[RequireComponent(typeof(Optimizer))]
 public class Spawner : MonoBehaviour
 {
     public Obstacle[] obstacles;
@@ -21,6 +22,8 @@ public class Spawner : MonoBehaviour
     {
         if (contrainer == null) transform.GetChild(0);
         Spawn();
+
+        GetComponent<Optimizer>().distance = distance;
     }
 
 
