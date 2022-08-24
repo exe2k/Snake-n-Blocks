@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
@@ -11,6 +13,13 @@ public class UIController : MonoBehaviour
     {
         allScreens = new RectTransform[] { startUI, gameUI, loseUI, winUI};
         GM.OnStateChanged.AddListener(SwitchScreen);
+        Player.onPointsChanged.AddListener(UpdateGameScreen);
+    }
+
+    private void UpdateGameScreen(int points)
+    {
+        if (points > 0) points -= 1;
+        gameUI.Find("Scores").GetComponent<TextMeshProUGUI>().text = points + "";
     }
 
     public void SwitchScreen(GameManager.GameStates state)
@@ -45,6 +54,7 @@ public class UIController : MonoBehaviour
     {
         SwitchOffAll();
         gameUI.gameObject.SetActive(true);
+        UpdateGameScreen(0);
     }
 
     void ShowLose()

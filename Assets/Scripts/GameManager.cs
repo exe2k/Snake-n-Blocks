@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         OnStateChanged.AddListener(SwitchState);
-
+        int loadlevel = PlayerPrefs.GetInt("Level");
+        level = (loadlevel>0)? loadlevel: 1;
     }
 
     private void SwitchState(GameStates st)
@@ -59,9 +60,7 @@ public class GameManager : MonoBehaviour
 
         Init();
     }
-
     
-
     public void Init()
     {
        Random.InitState(RND_SEED+level);
@@ -72,6 +71,8 @@ public class GameManager : MonoBehaviour
         var w = Instantiate(world);
         StartCoroutine(WaitForWorld());
         state = GameStates.start;
+
+        PlayerPrefs.SetInt("Level", level);
     }
 
     private void ClearWorld()
@@ -96,6 +97,5 @@ public class GameManager : MonoBehaviour
             yield return 5;
 
         currentPlayer = Instantiate(player);
-        
     }
 }

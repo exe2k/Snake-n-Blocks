@@ -11,7 +11,6 @@ namespace PathCreation.Builder
         public GameObject finish;
         public float spacing = 3;
         [SerializeField] [Min(0)] 
-        float startEmptySpace = 10;
         const float minSpacing = .1f;
 
         public void Generate()
@@ -30,9 +29,9 @@ namespace PathCreation.Builder
                     Vector3 point = path.GetPointAtDistance(dst);
                     Quaternion rot = path.GetRotationAtDistance(dst);
                     dst += spacing;
-                    if (path.length - dst < 1)
+                    if (path.length - dst < .2f)
                         Instantiate(finish, point, rot, transform);
-                    else if(dst> startEmptySpace)
+                    else if(dst> CONST.START_EMPTY_SPACE)
                     {
                         var spawner = Instantiate(prefab, point, rot, transform);
                         spawner.GetComponent<Spawner>().distance = dst;

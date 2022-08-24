@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.Events;
 using System.Collections.Generic;
 using PathCreation.Builder;
 using PathCreation;
@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     [SerializeField] Transform container;
 
     Transform head;
+
+    public static UnityEvent<int> onPointsChanged = new UnityEvent<int>();
 
     private void Start()
     {
@@ -119,7 +121,7 @@ public class Player : MonoBehaviour
         {
             AddLink();
         }
-
+        onPointsChanged?.Invoke(points);
     }
 
     public void TakeDamage()
@@ -133,6 +135,7 @@ public class Player : MonoBehaviour
         }
 
         RemoveLink();
+        onPointsChanged?.Invoke(points);
     }
 
     //move back on damage

@@ -26,8 +26,9 @@ public class Obstacle : Collectable
             AudioSource sfx_as = sfx.AddComponent<AudioSource>();
             sfx_as.spatialBlend = _as.spatialBlend;
             sfx_as.PlayOneShot(destroySound);
+            TimeKiller sfx_as_timekiller = sfx_as.gameObject.AddComponent<TimeKiller>();
+            sfx_as_timekiller.time = 3;
             Destroy(gameObject);
-            Destroy(sfx_as, 5);
         }
         else
         {
@@ -67,5 +68,6 @@ public class Obstacle : Collectable
         try { UpdateVisual(); }
         catch { };
     }
+
 
 }

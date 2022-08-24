@@ -22,6 +22,7 @@ public class CONST
     public const int SPAWNER_SINGLE_OBJ_CHANCE= 25; //percent NOT USED YET
     public const int SPAWNER_BAD_ONLY_CHANCE= 5; //percent
     public const int SPAWNER_MOVING_CHANCE= 60; //percent
+    public const float START_EMPTY_SPACE=10; //meters
 
 
     //Camera
