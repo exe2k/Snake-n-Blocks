@@ -5,9 +5,9 @@
 
 - [X] Level generation :tada:
 - [X] Basic Control :tada:
-- [ ] VFX
-- [ ] Audio
-- [ ] Environment
-- [ ] UI & Language
+- [X] VFX
+- [X] Audio
+- [X] Environment textures
+- [X] UI
 - [ ] Characters
 
