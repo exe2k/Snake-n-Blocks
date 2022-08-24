@@ -114,10 +114,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pathCreator: {fileID: 2852815987686334593}
   autoUpdate: 1
-  roadWidth: 3.2
+  roadWidth: 2.97
   thickness: 0.5
   flattenSurface: 0
-  roadMaterial: {fileID: 2100000, guid: b5df4735192845740bd11076dc9cdc99, type: 2}
+  roadMaterial: {fileID: 2100000, guid: f1aa90d021b2cc14399aac4294bf6a91, type: 2}
   undersideMaterial: {fileID: 2100000, guid: c1d8d882244c5344fa86a8fd23246f81, type: 2}
   textureTiling: 1
   meshHolder: {fileID: 2852815988236793530}
@@ -231,7 +231,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b5df4735192845740bd11076dc9cdc99, type: 2}
+  - {fileID: 2100000, guid: f1aa90d021b2cc14399aac4294bf6a91, type: 2}
   - {fileID: 2100000, guid: c1d8d882244c5344fa86a8fd23246f81, type: 2}
   - {fileID: 2100000, guid: c1d8d882244c5344fa86a8fd23246f81, type: 2}
   m_StaticBatchInfo:
@@ -350,3 +350,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GM: {fileID: 0}
   isWaypointsReady: 0
+  isPathReady: 0
