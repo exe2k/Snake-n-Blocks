@@ -39,7 +39,8 @@ public class WorldHandler : MonoBehaviour
         yield return new WaitUntil(() => isWaypointsReady);
         
         roadCreator.waypoints = waypointsGenerator.waypoints;
-        roadCreator.GeneratePath();
+        
+        yield return new WaitUntil(() => roadCreator.GeneratePath());
         pathPlacer.Generate();
 
         isPathReady = true;

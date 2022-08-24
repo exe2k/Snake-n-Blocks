@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
          
         set
         {
-          //if (value == _state) return;
+          if (value == _state) return;
           _state = value;
           OnStateChanged?.Invoke(state);
         }

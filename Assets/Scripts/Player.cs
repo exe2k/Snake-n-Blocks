@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     public bool isControlsOn = false;
     public bool isAlive = true;
-    private int points = 1;
+    public int points { get; private set; }
     public float distance { get; private set; }
     public float fullDistance { get; private set; }
     public float prevDistance { get; private set; }
@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
     {
         if (instance != null && instance!=this) Destroy(instance.gameObject);
         instance = this;
+
+        points = 1;
 
         pathFollower = GetComponent<PathFollower>();
         pathFollower.pathCreator = FindObjectOfType<PathCreator>();

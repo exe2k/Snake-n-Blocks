@@ -10,14 +10,15 @@ namespace PathCreation.Builder
         public GameObject prefab;
         public GameObject finish;
         public float spacing = 3;
-        [SerializeField] [Min(0)] 
+        [SerializeField]
+        [Min(0)]
         const float minSpacing = .1f;
 
         public void Generate()
         {
+            DestroyObjects();
             if (pathCreator != null && prefab != null)
             {
-                DestroyObjects();
 
                 VertexPath path = pathCreator.path;
 
@@ -31,13 +32,18 @@ namespace PathCreation.Builder
                     dst += spacing;
                     if (path.length - dst < .2f)
                         Instantiate(finish, point, rot, transform);
-                    else if(dst> CONST.START_EMPTY_SPACE)
+                    else if (dst > CONST.START_EMPTY_SPACE)
                     {
                         var spawner = Instantiate(prefab, point, rot, transform);
                         spawner.GetComponent<Spawner>().distance = dst;
                     }
                 }
             }
+            else
+            {
+                Debug.LogError("No path creator or prefab");
+            }
+    
         }
 
         void DestroyObjects()

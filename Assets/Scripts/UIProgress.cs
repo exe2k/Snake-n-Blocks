@@ -2,9 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Progress : MonoBehaviour
+[RequireComponent(typeof(Scrollbar))]
+public class UIProgress : MonoBehaviour
 {
-    [SerializeField] Scrollbar scrollbar;
+    Scrollbar scrollbar;
     float distance = 0;
 
 
@@ -18,7 +19,7 @@ public class UI_Progress : MonoBehaviour
     {
         if (Player.instance == null) return;
         
-        distance = Player.instance.distance / Player.instance.fullDistance *1.05f;
+        distance = Player.instance.distance / Player.instance.fullDistance *1.02f;
         scrollbar.size = distance;
     }
 }

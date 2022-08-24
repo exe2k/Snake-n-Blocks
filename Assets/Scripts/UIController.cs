@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(AudioSource))]
 public class UIController : MonoBehaviour
 {
     [SerializeField] GameManager GM;
@@ -9,8 +10,15 @@ public class UIController : MonoBehaviour
     [SerializeField] RectTransform startUI, gameUI, loseUI, winUI;
     RectTransform[] allScreens;
 
+    [Header("Audio")]
+    [SerializeField] AudioClip winSound;
+    [SerializeField] AudioClip loseSound;
+    AudioSource _as;
+
     private void Start()
     {
+        _as = GetComponent<AudioSource>();
+
         allScreens = new RectTransform[] { startUI, gameUI, loseUI, winUI };
         GM.OnStateChanged.AddListener(SwitchScreen);
         Player.onPointsChanged.AddListener(UpdateGameScreen);
@@ -20,7 +28,6 @@ public class UIController : MonoBehaviour
 
     private void UpdateGameScreen(int points)
     {
-        if (points > 0) points -= 1;
         gameUI.Find("Scores").GetComponent<TextMeshProUGUI>().text = points + "";
     }
 
@@ -64,12 +71,15 @@ public class UIController : MonoBehaviour
     {
         SwitchOffAll();
         loseUI.gameObject.SetActive(true);
+        _as?.PlayOneShot(loseSound);
     }
 
     void ShowWin()
     {
         SwitchOffAll();
         winUI.gameObject.SetActive(true);
+        winUI.Find("Points").GetComponent<TextMeshProUGUI>().text = $"{Player.instance.points}";
+        _as?.PlayOneShot(winSound);
     }
 
     void SwitchOffAll()

@@ -10,7 +10,7 @@ namespace PathCreation.Builder {
         public bool closedLoop = false; //default false
         public LinkedList<Transform> waypoints = new LinkedList<Transform>();
 
-        public void GeneratePath()
+        public bool GeneratePath()
         {
             var wp_array = waypoints.ToArray();
             if (waypoints.Count > 0)
@@ -23,7 +23,8 @@ namespace PathCreation.Builder {
             var roadMesh = GetComponent<RoadMeshCreator>();
             roadMesh.textureTiling = waypoints.Count * CONST.TEXTURE_TILE_FACTOR; 
             roadMesh.CreateRoad();
-            
+
+            return true;
         }
     }
 }
